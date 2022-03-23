@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import axios from '../axios-auth';
-
 export default {
   name: "Login",
   data() {
@@ -43,16 +41,12 @@ export default {
   },
   methods: {
     login() {
-     axios.post('/users/login', {
+     this.$store.dispatch('login', {
          "username": this.username,
          "password": this.password
      })
-     .then(result => {
-         axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.JWT}`;
-         console.log(result.data.JWT);
-         this.$router.push('/products');
-     })
-     .catch(err => console.log(err));
+     .then(() => this.$router.replace('/products'))
+     .catch((err) => console.log(err));
     },
   }
 };
